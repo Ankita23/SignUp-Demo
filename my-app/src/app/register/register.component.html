@@ -1,0 +1,113 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <form
+      *ngIf="!isSuccessful"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+          minlength="3"
+          maxlength="20"
+          #username="ngModel"
+          [placeholder]="userNamePlaceholderText"
+        />
+        <!-- <i class="fa fa-coffee"></i> -->
+        <div class="user-icon"><fa-icon [icon]="faUser"></fa-icon></div>
+        <div class="alert-danger" *ngIf="username.errors && f.submitted">
+          <div *ngIf="username.errors['required']">Username is required</div>
+          <div *ngIf="username.errors['minlength']">
+            Username must be at least 3 characters
+          </div>
+          <div *ngIf="username.errors['maxlength']">
+            Username must be at most 20 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="form.email"
+          required
+          email
+          #email="ngModel"
+          [placeholder]="emailPlaceholderText"
+        />
+        <div class="alert-danger" *ngIf="email.errors && f.submitted">
+          <div *ngIf="email.errors['required']">Email is required</div>
+          <div *ngIf="email.errors['email']">
+            Email must be a valid email address
+          </div>
+        </div>
+      </div>
+      <div class="phone-wrapper">
+        <select class="form-control abc" name="country" id="country">
+          <option value="" disabled selected>Country</option>
+          <option *ngFor="let country of countries" [value]="country.code">{{country.code}}</option>
+        </select>
+        <div class="form-group row">
+          <input 
+            type="text" 
+            placeholder="000-000-000" 
+            class="form-control" 
+            id="phone" 
+            name="phone" 
+            maxlength="12"
+           [(ngModel)]="form.phone" 
+           phoneMask
+           [ngClass]="{ 'is-invalid': phone.touched || form.submitted && phone.invalid }"
+           #phone="ngModel" 
+           phoneMask 
+           (input)="numbersOnlyValidator($event)" />
+  
+           <div *ngIf="(phone.touched || form.submitted) &&
+               phone.invalid" class="invalid-feedback">
+                 <div *ngIf="phone.errors">
+                   Please enter valid phone number.
+                 </div>
+               </div>
+        </div>
+      </div>
+     
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="********" 
+          class="form-control"
+          name="password"
+          [(ngModel)]="form.password"
+          required
+          minlength="8"
+          maxlength="8"
+          #password="ngModel"
+        />
+        <div class="alert-danger" *ngIf="password.errors && f.submitted">
+          <div *ngIf="password.errors['required']">Password is required</div>
+          <div *ngIf="password.errors['minlength']">
+            Password must be at least 8 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-success btn-block">Create An Account</button>
+      </div>
+
+      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+        Signup failed!<br />{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Your registration is successful!
+    </div>
+  </div>
+</div>
