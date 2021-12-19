@@ -1,54 +1,64 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../_services/auth.service';
-import { faFilm } from '@fortawesome/free-solid-svg-icons';
-import { faUser} from '@fortawesome/free-solid-svg-icons';
-// import { AngularFontAwesomeModule } from 'angular-font-awesome';
-//import { Countries } from '../helpers/country';
 import { Countries } from './../helpers/country';
-//import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-//import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
-
-
+//import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+//import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
-  filmIcon = faFilm;
-  faUser = faUser;
+
+export class RegisterComponent implements OnInit {  
   userNamePlaceholderText = 'Full Name';
   emailPlaceholderText = 'user@domain.ext';
+
+  submitted = false;
+  fieldTextType: boolean = false;
 
   form: any = {
     username: null,
     email: null,
     password: null,
-    phone: null
+    phone: null,
+    acceptTerms: null
   };
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService) { }
+  // separateDialCode = true;
+	// SearchCountryField = SearchCountryField;
+	// CountryISO = CountryISO;
+  // PhoneNumberFormat = PhoneNumberFormat;
+	// preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
+	// phoneForm = new FormGroup({
+	// 	phone: new FormControl(undefined, [Validators.required])
+	// });
+
+  constructor() {
+    
+  }
 
   ngOnInit(): void {
+    
   }
 
   onSubmit(): void {
-    const { username, email, password, phone } = this.form;
+    this.submitted = true;
+    
+    const { username, email, password, phone, terms } = this.form;
 
-    this.authService.register(username, email, password, phone).subscribe(
-      data => {
-        console.log(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-      },
-      err => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    );
+    if (this.form.invalid) {
+      this.isSignUpFailed = true;
+        return;
+    } else {
+      this.isSuccessful = true;
+    }
+
+    alert('SUCCESS!!');
+
+    localStorage.setItem('user',username);
   }
 
   public numbersOnlyValidator(event: any) {
@@ -57,29 +67,14 @@ export class RegisterComponent implements OnInit {
       event.target.value = event.target.value.replace(/[^0-9\-]/g, "");
     }
   }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
+
   public countries:any = countries;
   
 }
-
-// export class AppComponent {
-//   form: FormGroup;
-//   control: FormControl;
-//   customErrors = {required: 'Please accept the terms'}
-//   constructor(private builder: FormBuilder) { }
-
-//   ngOnInit() {
-//     this.control = this.builder.control('', Validators.required);
-
-//     this.form = this.builder.group({
-//       name: ['', [Validators.required, Validators.minLength(3)]],
-//       terms: ['', Validators.requiredTrue],
-//       address: this.builder.group({
-//         city: ['', Validators.required],
-//         country: ['', Validators.required]
-//       })
-//     });
-//   }
-// }
 
 export var countries: Countries [] = [
   { code: "+49", code3: "DE", name: "Germany", number: "004" },

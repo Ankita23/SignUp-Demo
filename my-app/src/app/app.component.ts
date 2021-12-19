@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +10,6 @@ export class AppComponent implements OnInit {
   
   private roles: string[] = [];
   isLoggedIn = false;
-  showAdminBoard = false;
-  showModeratorBoard = false;
   username?: string;
 
   constructor(private tokenStorageService: TokenStorageService) { }
@@ -21,19 +18,9 @@ export class AppComponent implements OnInit {
 
     this.isLoggedIn = !!this.tokenStorageService.getToken();
 
-    if (this.isLoggedIn) {
-      const user = this.tokenStorageService.getUser();
-      this.roles = user.roles;
+    // if (this.isLoggedIn) {
 
-      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
-
-      this.username = user.username;
-    }
+    //   this.username = user.username;
+    //}
   }
-
-  // logout(): void {                       
-  //   //this.tokenStorageService.signOut();
-  //   window.location.reload();
-  // }
 }
