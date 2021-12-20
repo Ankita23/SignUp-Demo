@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
-//import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
-import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -12,6 +10,8 @@ export class RegisterComponent implements OnInit {
   userNamePlaceholderText = 'Full Name';
   emailPlaceholderText = 'user@domain.ext';
   mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
+
+  userExists=localStorage.getItem('user');
 
   submitted = false;
   fieldTextType: boolean = false;
@@ -26,9 +26,9 @@ export class RegisterComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
-  constructor() {
-    
-  }
+  alreadyRegistered = false;
+
+  constructor(private toastrService:ToastrService) {}
 
   ngOnInit(): void {
     
@@ -45,7 +45,12 @@ export class RegisterComponent implements OnInit {
     }
     //alert('SUCCESS!!');
 
-    //localStorage.setItem('user',username);
+    localStorage.setItem('user',email);
+    if(email === this.userExists){
+      this.toastrService.error('user already exists');
+      this.alreadyRegistered = true;
+      return;
+    }
   }
 
   public numbersOnlyValidator(event: any) {
