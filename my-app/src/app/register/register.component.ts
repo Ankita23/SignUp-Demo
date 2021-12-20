@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Countries } from './../helpers/country';
-//import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 //import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -12,6 +11,7 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
 export class RegisterComponent implements OnInit {  
   userNamePlaceholderText = 'Full Name';
   emailPlaceholderText = 'user@domain.ext';
+  mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
 
   submitted = false;
   fieldTextType: boolean = false;
@@ -26,16 +26,6 @@ export class RegisterComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
-
-  // separateDialCode = true;
-	// SearchCountryField = SearchCountryField;
-	// CountryISO = CountryISO;
-  // PhoneNumberFormat = PhoneNumberFormat;
-	// preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
-	// phoneForm = new FormGroup({
-	// 	phone: new FormControl(undefined, [Validators.required])
-	// });
-
   constructor() {
     
   }
@@ -46,19 +36,16 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    
     const { username, email, password, phone, terms } = this.form;
-
     if (this.form.invalid) {
       this.isSignUpFailed = true;
         return;
     } else {
       this.isSuccessful = true;
     }
+    //alert('SUCCESS!!');
 
-    alert('SUCCESS!!');
-
-    localStorage.setItem('user',username);
+    //localStorage.setItem('user',username);
   }
 
   public numbersOnlyValidator(event: any) {
@@ -71,14 +58,6 @@ export class RegisterComponent implements OnInit {
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
-
-  public countries:any = countries;
   
 }
-
-export var countries: Countries [] = [
-  { code: "+49", code3: "DE", name: "Germany", number: "004" },
-    { code: "+91", code3: "IND", name: "India", number: "008" },
-    { code: "+92", code3: "PAK", name: "Pakistan", number: "012" },
-];
 

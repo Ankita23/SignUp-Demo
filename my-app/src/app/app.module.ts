@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {Ng2TelInputModule} from 'ng2-tel-input';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -29,7 +31,8 @@ const maskConfig: Partial<IConfig> = {
     HttpClientModule,
     //FontAwesomeModule,
     NgxMaskModule.forRoot(maskConfig),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    Ng2TelInputModule
   ],
 
   bootstrap: [AppComponent]

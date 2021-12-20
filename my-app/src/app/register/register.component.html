@@ -61,6 +61,9 @@
         </div>
       
       <div class="phone-wrapper">
+        
+        
+
         <!-- <ngx-intl-tel-input
         [cssClass]="'custom'"
         [preferredCountries]="preferredCountries"
@@ -87,12 +90,16 @@
         <option *ngFor="let country of countries" [value]="country.code">{{country.code}}</option>
       </select> -->
 
-        <select class="form-control country-code" name="country" id="country">
+      
+
+        <!-- <select class="form-control country-code" name="country" id="country">
           <option disabled selected>Select</option>
           <option *ngFor="let country of countries" [value]="country.code">{{country.code}}</option>
-        </select>
+        </select> -->
 
         <div class="form-group input-group">
+          <input style="width: 50px; height: 37px; margin-right: 30px; border: 1px solid #cbc8c8;
+          border-radius: 5px;" type="tel" ng2TelInput [ng2TelInputOptions]="{initialCountry: 'in'}" />
           <div class="input-group-prepend">
             <span class="input-group-text">
               <i class="fa fa-phone"></i>
@@ -100,16 +107,16 @@
           </div>
           <input 
             type="text" 
-            placeholder="000-000-000" 
+            placeholder="000-000-0000" 
             class="form-control" 
             id="phone" 
             name="phone" 
             maxlength="12"
-           [(ngModel)]="form.phone" 
-           mask="000-000-000"
+           [(ngModel)]="form.phone"
+           mask="000-000-0000"
            [ngClass]="{ 'is-invalid': phone.touched || form.submitted && phone.invalid }"
-           #phone="ngModel" 
-           phoneMask 
+           #phone="ngModel"
+           [pattern]="mobNumberPattern"
            (input)="numbersOnlyValidator($event)" />
   
             <div *ngIf="(phone.touched || form.submitted) &&
@@ -171,7 +178,6 @@
 
     <div class="alert alert-success" *ngIf="isSuccessful">
       Your registration is successful!
-      <div>Click here to Login</div>
     </div>
   </div>
 </div>
